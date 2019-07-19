@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Cards.UI.Web.Models.Card>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@foreach (var item in Model)
+{
+    <p>@Html.DisplayFor(modelItem => item.number)</p>
+}

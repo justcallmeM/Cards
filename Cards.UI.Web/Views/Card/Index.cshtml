@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Cards.UI.Web.Models.Card>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            <h3>UNIQUE NUMBER</h3>
+            @*@Html.DisplayNameFor(model => model.number)*@
+        </th>
+        <th>
+            <h3>STATE</h3>
+            @*@Html.DisplayNameFor(model => model.state)*@
+        </th>
+        <th>
+            <h3>EXPIRATION DATE</h3>
+            @*@Html.DisplayNameFor(model => model.expirationDate)*@
+        </th>
+        <th id="buttonCreate">
+            @Html.ActionLink("Create New", "Create")
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.state)
+        </td>
+        <td>
+            @item.expirationDate.ToString("yyyy-MM-dd")
+            @*@Html.DisplayFor(modelItem => item.expirationDate)*@
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
