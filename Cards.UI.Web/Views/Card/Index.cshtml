@@ -8,39 +8,93 @@
     <tr>
         <th>
             <h3>UNIQUE NUMBER</h3>
-            @*@Html.DisplayNameFor(model => model.number)*@
         </th>
         <th>
             <h3>STATE</h3>
-            @*@Html.DisplayNameFor(model => model.state)*@
         </th>
         <th>
             <h3>EXPIRATION DATE</h3>
-            @*@Html.DisplayNameFor(model => model.expirationDate)*@
         </th>
         <th id="buttonCreate">
             @Html.ActionLink("Create New", "Create")
         </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.number)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.state)
-        </td>
-        <td>
-            @item.expirationDate.ToString("yyyy-MM-dd")
-            @*@Html.DisplayFor(modelItem => item.expirationDate)*@
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.state)
+            </td>
+            <td>
+                @item.expirationDate.ToString("yyyy-MM-dd")
+            </td>
+            <td>
+                <ul>
+                    @if ((int)item.state == 0 || (int)item.state == 1)
+                    {
+                        <li><a onclick="showDialog()">Edit</a></li>
+                        @*<li>@Html.ActionLink("Edit", "Edit", new { id = item.ID })</li>*@
+                    }
+                    else
+                    {
+                        <li>Edit</li>
+                    }
+
+                    @if (item.expirationDate < DateTime.Now)
+                    {
+                        <li>@Html.ActionLink("Unavailable", "Details", new { id = item.ID })</li>
+                    }
+                    else if ((int)item.state == 2)
+                    {
+                        <li>@Html.ActionLink("Unblock", "Details", new { id = item.ID })</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Block", "Details", new { id = item.ID })</li>
+                    }
+                        <li><a onclick="showDialog()">History</a></li>
+                    <li>@Html.ActionLink("History", "Delete", new { id = item.ID })</li>
+                </ul>
+            </td>
+        </tr>
+    }
 
 </table>
+
+@(Html.Kendo().Dialog()
+
+    .Name("dialog")
+    .Title("Edit")
+    .Content("langas informacijai")
+    .Width(400)
+    .Modal(false)
+    .Visible(false)
+    .Events(ev => ev.Close("onClose").Open("onOpen"))
+)
+
+<script>
+    var boolean = 1;
+
+    function onClose() {
+        $("#showDialogBtn").fadeIn();
+    }
+
+    function onOpen() {
+        $("#showDialogBtn").fadeOut();
+    }
+
+    function showDialog() {
+        if (boolean == 1) {
+            $('#dialog').data("kendoDialog").open();
+            boolean = 0;
+        }
+        else if(boolean == 0) {
+            $('#dialog').data("kendoDialog").close();
+            boolean = 1;
+        }
+    }
+</script>

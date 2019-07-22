@@ -25,6 +25,19 @@ namespace Cards.UI.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
+                      "~/Scripts/KendoOld/jquery-2.2.2.min.js",
+                      "~/Scripts/KendoOld/jszip.min.js",
+                      "~/Scripts/KendoOld/kendo.all.min.js",
+                      "~/Scripts/KendoOld/kendo.aspnetmvc.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/Kendo/css").Include(
+                      "~/Content/Kendo/kendo.common-bootstrap.min.css",
+                      "~/Content/Kendo/kendo.bootstrap.min.css"));
+
+            bundles.IgnoreList.Clear();
+
         }
     }
 }

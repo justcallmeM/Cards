@@ -25,6 +25,18 @@ textarea {
 
 #buttonCreate {
     padding-top: 3.5%;
-    padding-left: 2.4%;
+    padding-left: 3.5%;
 }
 
+ul {
+    list-style-type: none;
+    display: inline-block;
+}
+
+    ul li {
+        display: inline;
+    }
+
+td, th {
+    text-align: center;
+}

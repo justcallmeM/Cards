@@ -21,6 +21,7 @@ namespace Cards.UI.Web.Controllers
             return View(db.Cards.ToList());
         }
 
+        /*
         // GET: Card/Details/5
         public ActionResult Details(int? id)
         {
@@ -34,24 +35,76 @@ namespace Cards.UI.Web.Controllers
                 return HttpNotFound();
             }
             return View(card);
+        }*/
+
+        // PUT: Card/Details/5
+        [HttpGet, ActionName("Details")]
+        public ActionResult Details(int? id)
+        {
+            Card card = db.Cards.Find(id);
+            /*pakeisti sita "IF" i WCF*/
+            if (card.expirationDate < DateTime.Now)
+            {
+                card.state = State.Expired;
+                db.SaveChanges();
+            }
+
+            switch ((int)card.state)
+            {
+                case 0:
+                    card.state = State.Blocked;
+                    db.SaveChanges();
+                    break;
+                case 1:
+                    card.state = State.Blocked;
+                    db.SaveChanges();
+                    break;
+                case 2:
+                    card.state = State.Active;
+                    db.SaveChanges();
+                    break;
+                case 3:
+                    break;
+                default:
+                    break;
+            }
+
+            return RedirectToAction("Index");
         }
 
         // GET: Card/Create
-        public ActionResult Create()
+        /*public ActionResult Create()
         {
             return View();
-        }
+        }*/
 
         // POST: Card/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         public ActionResult Create([Bind(Include = "ID,number,state,expirationDate")] Card card)
         {
+            Random rnd = new Random();
+
+            string randomNumber = "";
+            for(int  i = 0; i < 19; i++)
+            {
+                randomNumber += rnd.Next(0, 9).ToString();
+            }
+
+            var model = new Card()
+            {
+                
+                number = randomNumber,
+                state = State.Registered,
+                expirationDate = DateTime.Now.AddYears(10)
+                
+            };
+
             if (ModelState.IsValid)
             {
-                db.Cards.Add(card);
+                
+                db.Cards.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -106,8 +159,7 @@ namespace Cards.UI.Web.Controllers
         }
 
         // POST: Card/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpGet, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
             Card card = db.Cards.Find(id);
