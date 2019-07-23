@@ -40,3 +40,12 @@ ul {
 td, th {
     text-align: center;
 }
+
+.form-horizontal .form-group {
+    text-align: center;
+}
+
+.k-window {
+    display: flex;
+    height: 350px !important;
+}

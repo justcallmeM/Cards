@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Cards.UI.Web.DataAccessLayer;
 using Cards.UI.Web.Models;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cards.UI.Web.Controllers
 {
@@ -21,31 +23,28 @@ namespace Cards.UI.Web.Controllers
             return View(db.Cards.ToList());
         }
 
-        /*
-        // GET: Card/Details/5
-        public ActionResult Details(int? id)
+        /*public ActionResult ReadDatabase([DataSourceRequest] DataSourceRequest request)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Card card = db.Cards.Find(id);
-            if (card == null)
-            {
-                return HttpNotFound();
-            }
-            return View(card);
+            List<Card> card = db.Set<Card>().ToList();
+
+            return Json(card.ToDataSourceResult(request));
         }*/
 
-        // PUT: Card/Details/5
         [HttpGet, ActionName("Details")]
         public ActionResult Details(int? id)
         {
             Card card = db.Cards.Find(id);
+            CardHistory cardHistory = new CardHistory();
+
+            cardHistory.acquisitionDate = DateTime.Now;
+            cardHistory.stateChangeDate = DateTime.Now;
+            cardHistory.card = card;
+
             /*pakeisti sita "IF" i WCF*/
             if (card.expirationDate < DateTime.Now)
             {
                 card.state = State.Expired;
+                
                 db.SaveChanges();
             }
 
@@ -53,14 +52,20 @@ namespace Cards.UI.Web.Controllers
             {
                 case 0:
                     card.state = State.Blocked;
+                    cardHistory.state = State.Blocked;
+                    db.CardHistories.Add(cardHistory);
                     db.SaveChanges();
                     break;
                 case 1:
                     card.state = State.Blocked;
+                    cardHistory.state = State.Blocked;
+                    db.CardHistories.Add(cardHistory);
                     db.SaveChanges();
                     break;
                 case 2:
                     card.state = State.Active;
+                    cardHistory.state = State.Active;
+                    db.CardHistories.Add(cardHistory);
                     db.SaveChanges();
                     break;
                 case 3:
@@ -72,15 +77,7 @@ namespace Cards.UI.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Card/Create
-        /*public ActionResult Create()
-        {
-            return View();
-        }*/
-
         // POST: Card/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpGet]
         public ActionResult Create([Bind(Include = "ID,number,state,expirationDate")] Card card)
         {
@@ -124,12 +121,10 @@ namespace Cards.UI.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return View(card);
+            return PartialView(card);
         }
 
         // POST: Card/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,number,state,expirationDate")] Card card)
@@ -140,7 +135,7 @@ namespace Cards.UI.Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(card);
+            return PartialView(card);
         }
 
         // GET: Card/Delete/5

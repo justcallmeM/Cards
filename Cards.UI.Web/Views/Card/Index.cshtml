@@ -1,100 +1,118 @@
-﻿@model IEnumerable<Cards.UI.Web.Models.Card>
+﻿@using Kendo.Mvc.UI;
+@using Cards.UI.Web.Models;
+@model IEnumerable<Cards.UI.Web.Models.Card>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<table class="table">
-    <tr>
-        <th>
-            <h3>UNIQUE NUMBER</h3>
-        </th>
-        <th>
-            <h3>STATE</h3>
-        </th>
-        <th>
-            <h3>EXPIRATION DATE</h3>
-        </th>
-        <th id="buttonCreate">
-            @Html.ActionLink("Create New", "Create")
-        </th>
-    </tr>
+    @*@(Html.Kendo().Grid<Card>()
+                .Name("cardGrid")
+                .DataSource(dataSource => dataSource.Ajax()
+                                        .Read(read => read.Action("ReadDatabase", "Card"))
+                                        .PageSize(20))
+                .Columns(columns =>
+                {
+                    columns.Bound(c => c.CardHistories).Hidden();
+                    columns.Bound(c => c.number);
+                    columns.Bound(c => c.state);
+                    columns.Bound(c => c.expirationDate).Format("{0:yyyy-mm-dd}");
+                })
+                .HtmlAttributes(new { style = "height: 100%; width: 50%; border: none; text-align: center;" })
+                .Sortable()
+                .Filterable()
+            )*@
 
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.state)
-            </td>
-            <td>
-                @item.expirationDate.ToString("yyyy-MM-dd")
-            </td>
-            <td>
-                <ul>
-                    @if ((int)item.state == 0 || (int)item.state == 1)
-                    {
-                        <li><a onclick="showDialog()">Edit</a></li>
-                        @*<li>@Html.ActionLink("Edit", "Edit", new { id = item.ID })</li>*@
-                    }
-                    else
-                    {
-                        <li>Edit</li>
-                    }
-
-                    @if (item.expirationDate < DateTime.Now)
-                    {
-                        <li>@Html.ActionLink("Unavailable", "Details", new { id = item.ID })</li>
-                    }
-                    else if ((int)item.state == 2)
-                    {
-                        <li>@Html.ActionLink("Unblock", "Details", new { id = item.ID })</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Block", "Details", new { id = item.ID })</li>
-                    }
-                        <li><a onclick="showDialog()">History</a></li>
-                    <li>@Html.ActionLink("History", "Delete", new { id = item.ID })</li>
-                </ul>
-            </td>
+            <th>
+                <h3>UNIQUE NUMBER</h3>
+            </th>
+            <th>
+                <h3>STATE</h3>
+            </th>
+            <th>
+                <h3>EXPIRATION DATE</h3>
+            </th>
+            <th id="buttonCreate">
+                @Html.ActionLink("Create New", "Create")
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.state)
+                </td>
+                <td>
+                    @item.expirationDate.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    <ul>
+                        <a id="btnWindowKendo" value="OpenWindow">Edit</a>
 
-@(Html.Kendo().Dialog()
+                        @if ((int)item.state == 3)
+                        {
+                            <li>Unavailable</li>
+                        }
+                        else if ((int)item.state == 2)
+                        {
+                            <li>@Html.ActionLink("Unblock", "Details", new { id = item.ID })</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Block", "Details", new { id = item.ID })</li>
+                        }
+                        <li><a onclick="showDialog()">History</a></li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { id = item.ID })</li>
+                    </ul>
+                </td>
+            </tr>
 
-    .Name("dialog")
-    .Title("Edit")
-    .Content("langas informacijai")
-    .Width(400)
-    .Modal(false)
-    .Visible(false)
-    .Events(ev => ev.Close("onClose").Open("onOpen"))
-)
+            @(Html.Kendo().Window()
+                          .Name("window")
+                          .Title("Edit")
+                          .Content("loading...")
+                          .LoadContentFrom("Edit", "Card", new { id = item.ID })
+                          .Modal(true)
+                          .Width(550)
+                          .Height(300)
+                          .AutoFocus(true) //arba sitas.
+                          .Iframe(true) //tikriausiai sita sutvarke lazy loading, arba visai nepakrauna kitu. :D
+                          .Draggable()
+                          .Visible(false))
+        }
+
+    </table>
+
 
 <script>
-    var boolean = 1;
 
-    function onClose() {
-        $("#showDialogBtn").fadeIn();
-    }
+        $(document).ready(function () {
+            var window = $("#window").data("kendoWindow");
+            @*window.refresh('@Url.Action("Edit", "Card", new { id = Model.Where(item => item.ID != null)})')*@
 
-    function onOpen() {
-        $("#showDialogBtn").fadeOut();
-    }
+            @*$.ajax({
+                url: '@Url.Action("Edit", "Card", new { id = Model.Where(item => item.ID != null)})',
+                type: 'GET',
+                success: function(e) {
+                    var window = $("#window").data("kendoWindow");
+                    window.append(@Url.Content("~/Views/Card/Edit.cshtml"));
+                    $("#btnWindowKendo").click(function (e) {
+                    window.center();
+                    window.open();
+                });
+                }
+            });*@
 
-    function showDialog() {
-        if (boolean == 1) {
-            $('#dialog').data("kendoDialog").open();
-            boolean = 0;
-        }
-        else if(boolean == 0) {
-            $('#dialog').data("kendoDialog").close();
-            boolean = 1;
-        }
-    }
+            $("#btnWindowKendo").click(function (e) {
+                window.center();
+                window.open();
+            });
+                       
+        });
 </script>
