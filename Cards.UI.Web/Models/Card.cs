@@ -15,8 +15,11 @@ namespace Cards.UI.Web.Models
     {
         [Key]
         public int ID { get; set; }
+        [Display(Name = "Unique Number")]
         public string number { get; set; }
+        [Display(Name = "State")]
         public State state { get; set; }
+        [Display(Name = "Expiration Date")]
         public DateTime expirationDate { get; set; }
         public virtual ICollection<CardHistory> CardHistories { get; set; }
     }

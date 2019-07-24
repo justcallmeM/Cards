@@ -1,29 +1,60 @@
 ﻿@using Kendo.Mvc.UI;
 @using Cards.UI.Web.Models;
+@using System.Linq;
+@using System.Data.Entity;
+
+
 @model IEnumerable<Cards.UI.Web.Models.Card>
 
 @{
     ViewBag.Title = "Index";
 }
 
-    @*@(Html.Kendo().Grid<Card>()
+@(Html.Kendo().Grid<Card>()
                 .Name("cardGrid")
-                .DataSource(dataSource => dataSource.Ajax()
+                .DataSource(dataSource => dataSource
+                                        .Ajax()
                                         .Read(read => read.Action("ReadDatabase", "Card"))
+                                        .Destroy(destroy => destroy.Action("Delete","Card"))
+                                        .Create(create => create.Action("Create", "Card", new { id = "#=ID#"}))
                                         .PageSize(20))
                 .Columns(columns =>
                 {
-                    columns.Bound(c => c.CardHistories).Hidden();
-                    columns.Bound(c => c.number);
-                    columns.Bound(c => c.state);
-                    columns.Bound(c => c.expirationDate).Format("{0:yyyy-mm-dd}");
+                columns.Bound(c => c.number);
+                columns.Bound(c => c.state);
+                columns.Bound(c => c.expirationDate)
+                    .ClientTemplate(@"<time id='date'>#: expirationDate #</time>
+                                          <div>
+                                                <p><a id='btnWindowKendo' value='OpenWindow' href='" + Url.Action("Edit", "Card") + "/#=ID#'>" + "Edit" + "</a></p>" +
+                                          "</div>");
+
+                    @*columns.Bound(c => c.ID).ClientTemplate(@Html.ActionLink("Create New", "Create").ToHtmlString()
+                                                            @Html.ActionLink("Delete", "Delete", new { id = "#=ID#" }).ToHtmlString());*@
+
                 })
                 .HtmlAttributes(new { style = "height: 100%; width: 50%; border: none; text-align: center;" })
                 .Sortable()
                 .Filterable()
-            )*@
+)
 
-    <table class="table">
+@(Html.Kendo().Window()
+      .Name("window")
+      .Title("Edit")
+      .Content("loading...")
+      .LoadContentFrom("Edit", "Card", new { id = Model.ElementAt(0) })
+      .Modal(true)
+      .Width(550)
+      .Height(300)
+      .AutoFocus(true) //?
+      .Iframe(true) //tikriausiai sita sutvarke lazy loading, arba visai nepakrauna kitu. Bet grazina i nesamoninga vieta.
+      .Draggable()
+      .Visible(false))
+
+
+
+
+
+@*<table class="table">
         <tr>
             <th>
                 <h3>UNIQUE NUMBER</h3>
@@ -53,7 +84,7 @@
                 </td>
                 <td>
                     <ul>
-                        <a id="btnWindowKendo" value="OpenWindow">Edit</a>
+                        <li><a id="btnWindowKendo" value="OpenWindow">Edit</a></li>
 
                         @if ((int)item.state == 3)
                         {
@@ -67,31 +98,34 @@
                         {
                             <li>@Html.ActionLink("Block", "Details", new { id = item.ID })</li>
                         }
+
                         <li><a onclick="showDialog()">History</a></li>
                         <li>@Html.ActionLink("Delete", "Delete", new { id = item.ID })</li>
                     </ul>
                 </td>
             </tr>
 
-            @(Html.Kendo().Window()
-                          .Name("window")
-                          .Title("Edit")
-                          .Content("loading...")
-                          .LoadContentFrom("Edit", "Card", new { id = item.ID })
-                          .Modal(true)
-                          .Width(550)
-                          .Height(300)
-                          .AutoFocus(true) //arba sitas.
-                          .Iframe(true) //tikriausiai sita sutvarke lazy loading, arba visai nepakrauna kitu. :D
-                          .Draggable()
-                          .Visible(false))
+                @(Html.Kendo().Window()
+                      .Name("window")
+                      .Title("Edit")
+                      .Content("loading...")
+                      .LoadContentFrom("Edit", "Card", new { id = item.ID })
+                      .Modal(true)
+                      .Width(550)
+                      .Height(300)
+                      .AutoFocus(true) //?
+                      .Iframe(true) //tikriausiai sita sutvarke lazy loading, arba visai nepakrauna kitu. Bet grazina i nesamoninga vieta.
+                      .Draggable()
+                      .Visible(false))
+
         }
 
-    </table>
+    </table>*@
 
 
 <script>
 
+    var datetime = document.getElementById("date");
         $(document).ready(function () {
             var window = $("#window").data("kendoWindow");
             @*window.refresh('@Url.Action("Edit", "Card", new { id = Model.Where(item => item.ID != null)})')*@
@@ -113,6 +147,6 @@
                 window.center();
                 window.open();
             });
-                       
+
         });
 </script>

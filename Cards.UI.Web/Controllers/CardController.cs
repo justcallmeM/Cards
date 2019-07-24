@@ -23,12 +23,20 @@ namespace Cards.UI.Web.Controllers
             return View(db.Cards.ToList());
         }
 
-        /*public ActionResult ReadDatabase([DataSourceRequest] DataSourceRequest request)
+        public ActionResult ReadDatabase([DataSourceRequest] DataSourceRequest request)
         {
             List<Card> card = db.Set<Card>().ToList();
 
-            return Json(card.ToDataSourceResult(request));
-        }*/
+            var result = card.Select(x => new Card
+            {
+                ID = x.ID,
+                number = x.number,
+                state = x.state,
+                expirationDate = x.expirationDate
+            });
+
+            return Json(result.ToDataSourceResult(request));
+        }
 
         [HttpGet, ActionName("Details")]
         public ActionResult Details(int? id)
@@ -121,7 +129,7 @@ namespace Cards.UI.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView(card);
+            return View(card);
         }
 
         // POST: Card/Edit/5
@@ -135,7 +143,7 @@ namespace Cards.UI.Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return PartialView(card);
+            return View(card);
         }
 
         // GET: Card/Delete/5
