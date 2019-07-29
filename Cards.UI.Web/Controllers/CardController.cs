@@ -27,7 +27,7 @@ namespace Cards.UI.Web.Controllers
         {
             List<Card> card = db.Set<Card>().ToList();
 
-            var result = card.Select(x => new Card
+            var result = card.Select(x => new CardTestas
             {
                 ID = x.ID,
                 number = x.number,
@@ -38,8 +38,8 @@ namespace Cards.UI.Web.Controllers
             return Json(result.ToDataSourceResult(request));
         }
 
-        [HttpGet, ActionName("Details")]
-        public ActionResult Details(int? id)
+        [HttpGet, ActionName("Block")]
+        public ActionResult Block(int? id)
         {
             Card card = db.Cards.Find(id);
             CardHistory cardHistory = new CardHistory();
@@ -52,34 +52,63 @@ namespace Cards.UI.Web.Controllers
             if (card.expirationDate < DateTime.Now)
             {
                 card.state = State.Expired;
-                
+
+                db.SaveChanges();
+            }
+            if (card.state == State.Registered || card.state == State.Active)
+            {
+                switch ((int)card.state)
+                {
+                    case 0:
+                        card.state = State.Blocked;
+                        cardHistory.state = State.Blocked;
+                        db.CardHistories.Add(cardHistory);
+                        db.SaveChanges();
+                        break;
+                    case 1:
+                        card.state = State.Blocked;
+                        cardHistory.state = State.Blocked;
+                        db.CardHistories.Add(cardHistory);
+                        db.SaveChanges();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {}
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet, ActionName("Unblock")]
+        public ActionResult Unblock(int? id)
+        {
+            Card card = db.Cards.Find(id);
+            CardHistory cardHistory = new CardHistory();
+
+            cardHistory.acquisitionDate = DateTime.Now;
+            cardHistory.stateChangeDate = DateTime.Now;
+            cardHistory.card = card;
+
+            /*pakeisti sita "IF" i WCF*/
+            if (card.expirationDate < DateTime.Now)
+            {
+                card.state = State.Expired;
+
                 db.SaveChanges();
             }
 
-            switch ((int)card.state)
+            if(card.state == State.Blocked)
             {
-                case 0:
-                    card.state = State.Blocked;
-                    cardHistory.state = State.Blocked;
-                    db.CardHistories.Add(cardHistory);
-                    db.SaveChanges();
-                    break;
-                case 1:
-                    card.state = State.Blocked;
-                    cardHistory.state = State.Blocked;
-                    db.CardHistories.Add(cardHistory);
-                    db.SaveChanges();
-                    break;
-                case 2:
-                    card.state = State.Active;
-                    cardHistory.state = State.Active;
-                    db.CardHistories.Add(cardHistory);
-                    db.SaveChanges();
-                    break;
-                case 3:
-                    break;
-                default:
-                    break;
+                card.state = State.Active;
+                cardHistory.state = State.Active;
+                db.CardHistories.Add(cardHistory);
+                db.SaveChanges();
             }
 
             return RedirectToAction("Index");
@@ -90,34 +119,38 @@ namespace Cards.UI.Web.Controllers
         public ActionResult Create([Bind(Include = "ID,number,state,expirationDate")] Card card)
         {
             Random rnd = new Random();
-
             string randomNumber = "";
-            for(int  i = 0; i < 19; i++)
+            for (int i = 0; i < 19; i++)
             {
                 randomNumber += rnd.Next(0, 9).ToString();
             }
-
-            var model = new Card()
+            var cardModel = new Card()
             {
-                
                 number = randomNumber,
                 state = State.Registered,
                 expirationDate = DateTime.Now.AddYears(10)
-                
+
+            };
+
+            var cardHistoryModel = new CardHistory()
+            {
+                state = State.Registered,
+                acquisitionDate = DateTime.Now,
+                stateChangeDate = DateTime.Now,
+                card = cardModel
             };
 
             if (ModelState.IsValid)
             {
-                
-                db.Cards.Add(model);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                db.Cards.Add(cardModel);
+                db.CardHistories.Add(cardHistoryModel);
+                db.SaveChanges();                    
             }
 
-            return View(card);
+            return RedirectToAction("Index");
         }
 
-        // GET: Card/Edit/5
+        // GET: Card/Edit/
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -131,7 +164,6 @@ namespace Cards.UI.Web.Controllers
             }
             return View(card);
         }
-
         // POST: Card/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -144,6 +176,37 @@ namespace Cards.UI.Web.Controllers
                 return RedirectToAction("Index");
             }
             return View(card);
+        }
+
+        // GET: Card/History/
+        public ActionResult History(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            CardHistory cardHistories = db.CardHistories.Where(x => x.card.ID == id).FirstOrDefault();
+            Card card = db.Cards.Where(x => x.ID == id).FirstOrDefault();
+
+            if (card == null)
+            {
+                return HttpNotFound();
+            }
+            return View(card);
+        }
+        // POST: Card/History/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult History([Bind(Include = "cardHistoryID, state, acquisitionDate, stateChangeDate, card")] CardHistory cardHistory)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(cardHistory).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(cardHistory);
         }
 
         // GET: Card/Delete/5
@@ -166,6 +229,12 @@ namespace Cards.UI.Web.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Card card = db.Cards.Find(id);
+
+            card.CardHistories.ToList().Each(e =>
+            {
+                db.CardHistories.Remove(e);
+            });    
+
             db.Cards.Remove(card);
             db.SaveChanges();
             return RedirectToAction("Index");

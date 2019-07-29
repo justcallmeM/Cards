@@ -204,6 +204,26 @@
     <Compile Include="Migrations\201907190611340_final.Designer.cs">
       <DependentUpon>201907190611340_final.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907241030347_buttons.cs" />
+    <Compile Include="Migrations\201907241030347_buttons.Designer.cs">
+      <DependentUpon>201907241030347_buttons.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907241113358_unblockbutton.cs" />
+    <Compile Include="Migrations\201907241113358_unblockbutton.Designer.cs">
+      <DependentUpon>201907241113358_unblockbutton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907241135277_dateMigration.cs" />
+    <Compile Include="Migrations\201907241135277_dateMigration.Designer.cs">
+      <DependentUpon>201907241135277_dateMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907241139040_dateMigration2.cs" />
+    <Compile Include="Migrations\201907241139040_dateMigration2.Designer.cs">
+      <DependentUpon>201907241139040_dateMigration2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907251003304_fixModel.cs" />
+    <Compile Include="Migrations\201907251003304_fixModel.Designer.cs">
+      <DependentUpon>201907251003304_fixModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\CardHistory.cs" />
@@ -214,6 +234,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\history.css" />
     <Content Include="Content\Kendo\Bootstrap\editor.png" />
     <Content Include="Content\Kendo\Bootstrap\imagebrowser.png" />
     <Content Include="Content\Kendo\Bootstrap\indeterminate.gif" />
@@ -242,6 +263,7 @@
     <Content Include="Content\Kendo\Default\sprite_2x.png" />
     <Content Include="Content\Kendo\Default\sprite_kpi.png" />
     <Content Include="Content\Kendo\Default\sprite_kpi_2x.png" />
+    <Content Include="Content\edit.css" />
     <Content Include="Content\Kendo\fonts\DejaVu\LICENSE.txt" />
     <Content Include="Content\Kendo\fonts\glyphs\KendoUIGlyphs.svg" />
     <Content Include="Content\Kendo\fonts\glyphs\WebComponentsIcons.svg" />
@@ -366,6 +388,7 @@
     <Content Include="Views\Card\Index.cshtml" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js.map" />
     <Content Include="Scripts\kendo\kendo.all.min.js.map" />
+    <Content Include="Views\Card\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -434,6 +457,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907190611340_final.resx">
       <DependentUpon>201907190611340_final.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907241030347_buttons.resx">
+      <DependentUpon>201907241030347_buttons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907241113358_unblockbutton.resx">
+      <DependentUpon>201907241113358_unblockbutton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907241135277_dateMigration.resx">
+      <DependentUpon>201907241135277_dateMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907241139040_dateMigration2.resx">
+      <DependentUpon>201907241139040_dateMigration2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907251003304_fixModel.resx">
+      <DependentUpon>201907251003304_fixModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

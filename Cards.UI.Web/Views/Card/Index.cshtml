@@ -10,143 +10,96 @@
     ViewBag.Title = "Index";
 }
 
+<div class="createButton">
+    @Html.ActionLink("Create New", "Create")
+</div>
+
 @(Html.Kendo().Grid<Card>()
                 .Name("cardGrid")
                 .DataSource(dataSource => dataSource
                                         .Ajax()
                                         .Read(read => read.Action("ReadDatabase", "Card"))
-                                        .Destroy(destroy => destroy.Action("Delete","Card"))
-                                        .Create(create => create.Action("Create", "Card", new { id = "#=ID#"}))
                                         .PageSize(20))
+                .Events(e => e.DataBound("onDataBound"))
                 .Columns(columns =>
                 {
-                columns.Bound(c => c.number);
-                columns.Bound(c => c.state);
-                columns.Bound(c => c.expirationDate)
-                    .ClientTemplate(@"<time id='date'>#: expirationDate #</time>
-                                          <div>
-                                                <p><a id='btnWindowKendo' value='OpenWindow' href='" + Url.Action("Edit", "Card") + "/#=ID#'>" + "Edit" + "</a></p>" +
+                    columns.Bound(c => c.number);
+                    columns.Bound(c => c.state);
+                    columns.Bound(c => c.expirationDate)
+                        .ClientTemplate(@"<div class='expirationDate'>
+                                              <div id='date'>
+                                                    #: niceDate #
+                                              </div>
+                                              <div>
+                                                    <p><a href='" + Url.Action("Edit", "Card") + "/#=ID#'>" + "Edit" + "</a></p>" +
+                                              "</div>" +
                                           "</div>");
-
-                    @*columns.Bound(c => c.ID).ClientTemplate(@Html.ActionLink("Create New", "Create").ToHtmlString()
-                                                            @Html.ActionLink("Delete", "Delete", new { id = "#=ID#" }).ToHtmlString());*@
-
-                })
-                .HtmlAttributes(new { style = "height: 100%; width: 50%; border: none; text-align: center;" })
-                .Sortable()
-                .Filterable()
+                    columns.Template(@<text></text>).ClientTemplate(@Html.ActionLink("Block", "Block", new { id = "#=ID#" }).ToHtmlString());
+                    columns.Template(@<text></text>).ClientTemplate(@Html.ActionLink("Unblock", "Unblock", new { id = "#=ID#" }).ToHtmlString());
+                    columns.Template(@<text></text>).ClientTemplate(@"<div>
+                                                                           <p><a href='" + Url.Action("History", "Card") + "/#=ID#'>" + "History" + "</a></p>" +
+                                                                    "</div>");
+                    //columns.Bound(c => c.deleteButton).ClientTemplate(@Html.ActionLink("Delete", "Delete", new { id = "#=ID#" }).ToHtmlString());
+                    columns.Template(@<text></text>).ClientTemplate(@Html.ActionLink("Delete", "Delete", new { id = "#=ID#" }).ToHtmlString());
+                    })                    
+                    .HtmlAttributes(new { style = "height: 100%; width: 50%; border: none; text-align: center;" })
+                    .Sortable()
+                    .Pageable()
+                    .Filterable()
 )
 
-@(Html.Kendo().Window()
-      .Name("window")
-      .Title("Edit")
-      .Content("loading...")
-      .LoadContentFrom("Edit", "Card", new { id = Model.ElementAt(0) })
-      .Modal(true)
-      .Width(550)
-      .Height(300)
-      .AutoFocus(true) //?
-      .Iframe(true) //tikriausiai sita sutvarke lazy loading, arba visai nepakrauna kitu. Bet grazina i nesamoninga vieta.
-      .Draggable()
-      .Visible(false))
-
-
-
-
-
-@*<table class="table">
-        <tr>
-            <th>
-                <h3>UNIQUE NUMBER</h3>
-            </th>
-            <th>
-                <h3>STATE</h3>
-            </th>
-            <th>
-                <h3>EXPIRATION DATE</h3>
-            </th>
-            <th id="buttonCreate">
-                @Html.ActionLink("Create New", "Create")
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.number)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.state)
-                </td>
-                <td>
-                    @item.expirationDate.ToString("yyyy-MM-dd")
-                </td>
-                <td>
-                    <ul>
-                        <li><a id="btnWindowKendo" value="OpenWindow">Edit</a></li>
-
-                        @if ((int)item.state == 3)
-                        {
-                            <li>Unavailable</li>
-                        }
-                        else if ((int)item.state == 2)
-                        {
-                            <li>@Html.ActionLink("Unblock", "Details", new { id = item.ID })</li>
-                        }
-                        else
-                        {
-                            <li>@Html.ActionLink("Block", "Details", new { id = item.ID })</li>
-                        }
-
-                        <li><a onclick="showDialog()">History</a></li>
-                        <li>@Html.ActionLink("Delete", "Delete", new { id = item.ID })</li>
-                    </ul>
-                </td>
-            </tr>
-
-                @(Html.Kendo().Window()
-                      .Name("window")
-                      .Title("Edit")
-                      .Content("loading...")
-                      .LoadContentFrom("Edit", "Card", new { id = item.ID })
-                      .Modal(true)
-                      .Width(550)
-                      .Height(300)
-                      .AutoFocus(true) //?
-                      .Iframe(true) //tikriausiai sita sutvarke lazy loading, arba visai nepakrauna kitu. Bet grazina i nesamoninga vieta.
-                      .Draggable()
-                      .Visible(false))
-
-        }
-
-    </table>*@
-
-
 <script>
+    function onDataBound(e) {
 
-    var datetime = document.getElementById("date");
-        $(document).ready(function () {
-            var window = $("#window").data("kendoWindow");
-            @*window.refresh('@Url.Action("Edit", "Card", new { id = Model.Where(item => item.ID != null)})')*@
+        var container = document.querySelector("#cardGrid");
+        var row = container.querySelectorAll("tr");
 
-            @*$.ajax({
-                url: '@Url.Action("Edit", "Card", new { id = Model.Where(item => item.ID != null)})',
-                type: 'GET',
-                success: function(e) {
-                    var window = $("#window").data("kendoWindow");
-                    window.append(@Url.Content("~/Views/Card/Edit.cshtml"));
-                    $("#btnWindowKendo").click(function (e) {
-                    window.center();
-                    window.open();
-                });
-                }
-            });*@
+        for (var a = 1; a < row.length; a++) {
 
-            $("#btnWindowKendo").click(function (e) {
-                window.center();
-                window.open();
-            });
+            var dateAndEdit = row[a].children[2].innerHTML;
+            var date = dateAndEdit.substring(143, 153);
+            var editBtn = dateAndEdit.substring(338, 342);
 
-        });
+            var state = row[a].children[1].textContent;
+
+            switch (state) {
+                case "Blocked":
+                    row[a].children[2].setAttribute("class", "democlass");
+                    row[a].children[2].addEventListener('click', function (event) {
+                        event.preventDefault();
+                    });
+                    row[a].children[3].setAttribute("class", "democlass");
+                    row[a].children[3].addEventListener('click', function (event) {
+                        event.preventDefault();
+                    });
+                    break;
+                case "Active":
+                    row[a].children[4].setAttribute("class", "democlass");
+                    row[a].children[4].addEventListener('click', function (event) {
+                        event.preventDefault();
+                    });
+                    break;
+                case "Registered":
+                    row[a].children[4].setAttribute("class", "democlass");
+                    row[a].children[4].addEventListener('click', function (event) {
+                        event.preventDefault();
+                    });
+                    break;
+                case "Expired":
+                    row[a].children[3].setAttribute("class", "democlass");
+                    row[a].children[3].addEventListener('click', function (event) {
+                        event.preventDefault();
+                    });
+                    row[a].children[4].setAttribute("class", "democlass");
+                    row[a].children[4].addEventListener('click', function (event) {
+                        event.preventDefault();
+                    });
+                    break;
+            }
+        }
+            //norint ijungti link'a
+            /*link.remove("democlass");
+            link.href = link.getAttribute('data-href');
+            link.removeAttribute('aria-disabled');*/
+    }
 </script>

@@ -49,3 +49,16 @@ td, th {
     display: flex;
     height: 350px !important;
 }
+
+.expirationDate {
+    display: flex;
+}
+
+    .expirationDate p {
+        text-align: center;
+        margin-left: 100%;
+    }
+
+    .expirationDate #date {
+        margin-left: 10%;
+    }

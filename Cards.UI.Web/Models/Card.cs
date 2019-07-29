@@ -23,4 +23,18 @@ namespace Cards.UI.Web.Models
         public DateTime expirationDate { get; set; }
         public virtual ICollection<CardHistory> CardHistories { get; set; }
     }
+
+    public class CardTestas
+    {
+        public int ID { get; set; }
+        public string number { get; set; }
+        public State state { get; set; }
+        public DateTime expirationDate { get; set; }
+        public string niceDate { get { return this.expirationDate.ToString("yyyy-MM-dd"); } }
+        public CardTestas()
+        {
+
+        }
+    }
+
 }

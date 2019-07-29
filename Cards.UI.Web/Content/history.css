@@ -1,0 +1,37 @@
+﻿#historyTable {
+    margin-left: 25%;
+    width: 50%;
+}
+
+.head {
+    font-size: 25px;
+    padding-bottom: 2rem;
+}
+
+#pageHead {
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+}
+
+#number {
+    margin-left: 0.5%;
+    color: green;
+}
+
+#acquisitionDate {
+    margin-left: 0.5%;
+    color: green;
+}
+
+#acquisitionID {
+    margin-left: 2%;
+}
+
+#numberTag {
+    margin-left: 30%;
+}
+
+.body {
+    padding-bottom: 1.5rem;
+}

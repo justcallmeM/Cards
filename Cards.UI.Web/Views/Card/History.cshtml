@@ -1,0 +1,31 @@
+﻿@model Cards.UI.Web.Models.Card
+
+@{
+    ViewBag.Title = "History";
+}
+
+
+    <div id="pageHead">
+        <p id="numberTag">Number: </p>
+        <p id="number"> @Model.number</p>
+        <p id="acquisitionID">Aquisition date: </p>
+        <p id="acquisitionDate"> @Model.CardHistories.FirstOrDefault().acquisitionDate</p>
+    </div>
+
+<table id="historyTable">
+    <tr>
+        <th class="head">History ID</th>
+        <th class="head">State</th>
+        <th class="head">State changed date</th>
+    </tr>
+    @foreach (var item in Model.CardHistories)
+    {
+        <tr>
+            <td class="body">@item.cardHistoryID</td>
+            @*<td class="body">@item.card.number</td>*@
+            <td class="body">@item.state</td>
+            <td class="body">@item.stateChangeDate</td>
+        </tr>
+    }
+</table>
+
