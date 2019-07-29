@@ -54,7 +54,7 @@
     margin-left: 0%;
 }
 
-.democlass {
+.clickDisabled {
     /*for mouse clicks, on touch events*/
     cursor: not-allowed;
     opacity: 0.5;

@@ -39,7 +39,6 @@
                     columns.Template(@<text></text>).ClientTemplate(@"<div>
                                                                            <p><a href='" + Url.Action("History", "Card") + "/#=ID#'>" + "History" + "</a></p>" +
                                                                     "</div>");
-                    //columns.Bound(c => c.deleteButton).ClientTemplate(@Html.ActionLink("Delete", "Delete", new { id = "#=ID#" }).ToHtmlString());
                     columns.Template(@<text></text>).ClientTemplate(@Html.ActionLink("Delete", "Delete", new { id = "#=ID#" }).ToHtmlString());
                     })                    
                     .HtmlAttributes(new { style = "height: 100%; width: 50%; border: none; text-align: center;" })
@@ -56,41 +55,41 @@
 
         for (var a = 1; a < row.length; a++) {
 
-            var dateAndEdit = row[a].children[2].innerHTML;
-            var date = dateAndEdit.substring(143, 153);
-            var editBtn = dateAndEdit.substring(338, 342);
-
             var state = row[a].children[1].textContent;
 
             switch (state) {
                 case "Blocked":
-                    row[a].children[2].setAttribute("class", "democlass");
+                    row[a].children[2].setAttribute("class", "clickDisabled");
                     row[a].children[2].addEventListener('click', function (event) {
                         event.preventDefault();
                     });
-                    row[a].children[3].setAttribute("class", "democlass");
+                    row[a].children[3].setAttribute("class", "clickDisabled");
                     row[a].children[3].addEventListener('click', function (event) {
                         event.preventDefault();
                     });
                     break;
                 case "Active":
-                    row[a].children[4].setAttribute("class", "democlass");
+                    row[a].children[4].setAttribute("class", "clickDisabled");
                     row[a].children[4].addEventListener('click', function (event) {
                         event.preventDefault();
                     });
                     break;
                 case "Registered":
-                    row[a].children[4].setAttribute("class", "democlass");
+                    row[a].children[4].setAttribute("class", "clickDisabled");
                     row[a].children[4].addEventListener('click', function (event) {
                         event.preventDefault();
                     });
                     break;
                 case "Expired":
-                    row[a].children[3].setAttribute("class", "democlass");
+                    row[a].children[2].setAttribute("class", "clickDisabled");
+                    row[a].children[2].addEventListener('click', function (event) {
+                        event.preventDefault();
+                    });
+                    row[a].children[3].setAttribute("class", "clickDisabled");
                     row[a].children[3].addEventListener('click', function (event) {
                         event.preventDefault();
                     });
-                    row[a].children[4].setAttribute("class", "democlass");
+                    row[a].children[4].setAttribute("class", "clickDisabled");
                     row[a].children[4].addEventListener('click', function (event) {
                         event.preventDefault();
                     });
@@ -98,7 +97,7 @@
             }
         }
             //norint ijungti link'a
-            /*link.remove("democlass");
+            /*link.remove("clickDisabled");
             link.href = link.getAttribute('data-href');
             link.removeAttribute('aria-disabled');*/
     }

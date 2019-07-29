@@ -25,6 +25,7 @@ namespace Cards.UI.Web.Controllers
 
         public ActionResult ReadDatabase([DataSourceRequest] DataSourceRequest request)
         {
+
             List<Card> card = db.Set<Card>().ToList();
 
             var result = card.Select(x => new CardTestas
@@ -80,7 +81,7 @@ namespace Cards.UI.Web.Controllers
                 }
             }
             else
-            {}
+            { }
 
             return RedirectToAction("Index");
         }
