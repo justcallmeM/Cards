@@ -17,10 +17,14 @@ namespace Cards.UI.Web.Controllers
     {
         private CardContext db = new CardContext();
 
-        // GET: Card
         public ActionResult Index()
         {
             return View(db.Cards.ToList());
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         public ActionResult ReadDatabase([DataSourceRequest] DataSourceRequest request)
@@ -238,11 +242,6 @@ namespace Cards.UI.Web.Controllers
             db.Cards.Remove(card);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult Error()
-        {
-            return View();
         }
 
         protected override void Dispose(bool disposing)

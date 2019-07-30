@@ -59,14 +59,13 @@
 
             switch (state) {
                 case "Blocked":
-                    row[a].children[2].setAttribute("class", "clickDisabled");
-                    row[a].children[2].addEventListener('click', function (event) {
-                        event.preventDefault();
-                    });
-                    row[a].children[3].setAttribute("class", "clickDisabled");
-                    row[a].children[3].addEventListener('click', function (event) {
-                        event.preventDefault();
-                    });
+                    for (var i = 2; i < 4; i++)
+                    {
+                        row[a].children[i].setAttribute("class", "clickDisabled");
+                        row[a].children[i].addEventListener('click', function (event) {
+                            event.preventDefault();
+                        });
+                    }
                     break;
                 case "Active":
                     row[a].children[4].setAttribute("class", "clickDisabled");
@@ -81,18 +80,13 @@
                     });
                     break;
                 case "Expired":
-                    row[a].children[2].setAttribute("class", "clickDisabled");
-                    row[a].children[2].addEventListener('click', function (event) {
-                        event.preventDefault();
-                    });
-                    row[a].children[3].setAttribute("class", "clickDisabled");
-                    row[a].children[3].addEventListener('click', function (event) {
-                        event.preventDefault();
-                    });
-                    row[a].children[4].setAttribute("class", "clickDisabled");
-                    row[a].children[4].addEventListener('click', function (event) {
-                        event.preventDefault();
-                    });
+                    for (var i = 2; i < 5; i++)
+                    {
+                        row[a].children[i].setAttribute("class", "clickDisabled");
+                        row[a].children[i].addEventListener('click', function (event) {
+                            event.preventDefault();
+                        });
+                    }
                     break;
             }
         }
