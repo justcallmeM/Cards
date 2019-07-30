@@ -48,13 +48,9 @@ namespace Cards.UI.Web.Controllers
             cardHistory.acquisitionDate = DateTime.Now;
             cardHistory.stateChangeDate = DateTime.Now;
             cardHistory.card = card;
-
-            /*pakeisti sita "IF" i WCF*/
-            if (card.expirationDate < DateTime.Now)
+            if(card == null)
             {
-                card.state = State.Expired;
-
-                db.SaveChanges();
+                return RedirectToAction("Error");
             }
             if (card.state == State.Registered || card.state == State.Active)
             {
@@ -96,15 +92,11 @@ namespace Cards.UI.Web.Controllers
             cardHistory.stateChangeDate = DateTime.Now;
             cardHistory.card = card;
 
-            /*pakeisti sita "IF" i WCF*/
-            if (card.expirationDate < DateTime.Now)
+            if (card == null)
             {
-                card.state = State.Expired;
-
-                db.SaveChanges();
+                return RedirectToAction("Error");
             }
-
-            if(card.state == State.Blocked)
+            if (card.state == State.Blocked)
             {
                 card.state = State.Active;
                 cardHistory.state = State.Active;
@@ -156,13 +148,16 @@ namespace Cards.UI.Web.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error");
             }
+
             Card card = db.Cards.Find(id);
+
             if (card == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Error");
             }
+
             return View(card);
         }
         // POST: Card/Edit/5
@@ -184,7 +179,7 @@ namespace Cards.UI.Web.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error");
             }
             
             CardHistory cardHistories = db.CardHistories.Where(x => x.card.ID == id).FirstOrDefault();
@@ -192,7 +187,7 @@ namespace Cards.UI.Web.Controllers
 
             if (card == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Error");
             }
             return View(card);
         }
@@ -215,12 +210,12 @@ namespace Cards.UI.Web.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error");
             }
             Card card = db.Cards.Find(id);
             if (card == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Error");
             }
             return View(card);
         }
@@ -231,6 +226,10 @@ namespace Cards.UI.Web.Controllers
         {
             Card card = db.Cards.Find(id);
 
+            if(card == null)
+            {
+                return RedirectToAction("Error");
+            }
             card.CardHistories.ToList().Each(e =>
             {
                 db.CardHistories.Remove(e);
@@ -239,6 +238,11 @@ namespace Cards.UI.Web.Controllers
             db.Cards.Remove(card);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)

@@ -13,7 +13,7 @@ namespace Cards.UI.Web.Models
             DateTime currentDate = DateTime.Now;
             string message = string.Empty;
 
-            if(Convert.ToDateTime(value) < currentDate)
+            if (Convert.ToDateTime(value).Date < currentDate.Date)
             {
                 message = "Date cannot be less than current date";
                 return new ValidationResult(message);

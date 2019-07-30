@@ -35,3 +35,7 @@
 .body {
     padding-bottom: 1.5rem;
 }
+
+hgroup {
+    text-align: center;
+}

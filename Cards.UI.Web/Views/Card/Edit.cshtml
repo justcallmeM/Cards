@@ -15,8 +15,11 @@
 
     <div class="form-group">
         @Html.LabelFor(model => model.number, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        <div  style="display: none">
             @Html.EditorFor(model => model.number)
+        </div>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.number)
         </div>
     </div>
 

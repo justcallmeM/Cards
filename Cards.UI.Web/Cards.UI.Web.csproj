@@ -134,7 +134,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CardController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DataAccessLayer\CardContext.cs" />
     <Compile Include="DataAccessLayer\CardInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -385,7 +384,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Card\Create.cshtml" />
     <Content Include="Views\Card\Delete.cshtml" />
     <Content Include="Views\Card\Details.cshtml" />
