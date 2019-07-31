@@ -19,7 +19,7 @@
                 .DataSource(dataSource => dataSource
                                         .Ajax()
                                         .Read(read => read.Action("ReadDatabase", "Card"))
-                                        .PageSize(20))
+                                        .PageSize(30))
                 .Events(e => e.DataBound("onDataBound"))
                 .Columns(columns =>
                 {
