@@ -135,11 +135,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Connected Services\ServiceReference1\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Connected Services\ServiceReference2\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -246,16 +241,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Connected Services\ServiceReference1\Cards.UI.Web.ServiceReference1.CompositeType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <None Include="Connected Services\ServiceReference1\Service1.disco" />
-    <None Include="Connected Services\ServiceReference1\configuration91.svcinfo" />
-    <None Include="Connected Services\ServiceReference1\configuration.svcinfo" />
-    <None Include="Connected Services\ServiceReference1\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <None Include="Connected Services\ServiceReference2\configuration91.svcinfo" />
     <None Include="Connected Services\ServiceReference2\configuration.svcinfo" />
     <None Include="Connected Services\ServiceReference2\Reference.svcmap">
@@ -379,16 +364,6 @@
     <Content Include="Content\Kendo\kendo.default.min.css.map" />
     <Content Include="Content\Kendo\kendo.dataviz.default.min.css.map" />
     <Content Include="Content\Kendo\kendo.common.min.css.map" />
-    <None Include="Connected Services\ServiceReference1\Service1.wsdl" />
-    <None Include="Connected Services\ServiceReference1\Service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ServiceReference1\Service11.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ServiceReference1\Service12.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\ServiceReference2\Service1.wsdl" />
     <Content Include="Properties\DataSources\ActivationService.CompositeType.datasource" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -426,7 +401,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Card\Create.cshtml" />
     <Content Include="Views\Card\Delete.cshtml" />
-    <Content Include="Views\Card\Details.cshtml" />
     <Content Include="Views\Card\Edit.cshtml" />
     <Content Include="Views\Card\Index.cshtml" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js.map" />
@@ -521,7 +495,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\ServiceReference1\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReference2\" />
   </ItemGroup>
   <ItemGroup>

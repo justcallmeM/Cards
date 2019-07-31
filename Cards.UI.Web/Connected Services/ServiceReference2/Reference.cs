@@ -21,11 +21,11 @@ namespace Cards.UI.Web.ServiceReference2 {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetStringData", ReplyAction="http://tempuri.org/IService1/GetStringDataResponse")]
         System.Threading.Tasks.Task GetStringDataAsync(string value);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService1/GetDataUsingDataContractResponse")]
-        ActivationService.CompositeType GetDataUsingDataContract(ActivationService.CompositeType composite);
+        //[System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService1/GetDataUsingDataContractResponse")]
+        //ActivationService.CompositeType GetDataUsingDataContract(ActivationService.CompositeType composite);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService1/GetDataUsingDataContractResponse")]
-        System.Threading.Tasks.Task<ActivationService.CompositeType> GetDataUsingDataContractAsync(ActivationService.CompositeType composite);
+        //[System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService1/GetDataUsingDataContractResponse")]
+        //System.Threading.Tasks.Task<ActivationService.CompositeType> GetDataUsingDataContractAsync(ActivationService.CompositeType composite);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -63,12 +63,12 @@ namespace Cards.UI.Web.ServiceReference2 {
             return base.Channel.GetStringDataAsync(value);
         }
         
-        public ActivationService.CompositeType GetDataUsingDataContract(ActivationService.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContract(composite);
-        }
+        //public ActivationService.CompositeType GetDataUsingDataContract(ActivationService.CompositeType composite) {
+        //    return base.Channel.GetDataUsingDataContract(composite);
+        //}
         
-        public System.Threading.Tasks.Task<ActivationService.CompositeType> GetDataUsingDataContractAsync(ActivationService.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContractAsync(composite);
-        }
+        //public System.Threading.Tasks.Task<ActivationService.CompositeType> GetDataUsingDataContractAsync(ActivationService.CompositeType composite) {
+        //    return base.Channel.GetDataUsingDataContractAsync(composite);
+        //}
     }
 }

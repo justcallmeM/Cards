@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Cards.UI.Web.DataAccessLayer;
 using Cards.UI.Web.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using Cards.UI.Web.ServiceReference1;
-using ActivationService;
 
 namespace Cards.UI.Web.Controllers
 {
@@ -117,7 +113,6 @@ namespace Cards.UI.Web.Controllers
         [HttpGet]
         public ActionResult Create([Bind(Include = "ID,number,state,expirationDate")] Card card)
         {
-            //service1 
             ServiceReference2.Service1Client service1Client1 = new ServiceReference2.Service1Client();
 
             Random rnd = new Random();
@@ -142,15 +137,11 @@ namespace Cards.UI.Web.Controllers
                 card = cardModel
             };
 
-            //if (ModelState.IsValid)
-            //{
-                db.Cards.Add(cardModel);
-                db.CardHistories.Add(cardHistoryModel);
-                db.SaveChanges();                    
-            //}
+            db.Cards.Add(cardModel);
+            db.CardHistories.Add(cardHistoryModel);
+            db.SaveChanges();                    
 
-            //maybe do the call of the service method here?
-            //service1.GetStringData(randomNumber);
+            //calling the service method.
             service1Client1.GetStringData(randomNumber);
 
             return RedirectToAction("Index");
@@ -243,6 +234,7 @@ namespace Cards.UI.Web.Controllers
             {
                 return RedirectToAction("Error");
             }
+
             card.CardHistories.ToList().Each(e =>
             {
                 db.CardHistories.Remove(e);

@@ -1,14 +1,7 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Cards.UI.Web;
-using Cards.UI.Web.DataAccessLayer;
-using Cards.UI.Web.Models;
 
 namespace Jobs
 {
@@ -34,8 +27,6 @@ namespace Jobs
 
             IJobDetail job2 = JobBuilder.Create<CheckExpiration>()
                 .WithIdentity("myJob", "group1") // name "myJob", group "group1"
-                //.UsingJobData("jobSays", "Hello World!")
-                //.UsingJobData("myDouble", 3.1)
                 .Build();
 
             ITrigger trigger = TriggerBuilder.Create()
