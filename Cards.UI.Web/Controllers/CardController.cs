@@ -13,7 +13,7 @@ namespace Cards.UI.Web.Controllers
 {
     public class CardController : Controller
     {
-        private CardContext db = new CardContext();
+        private readonly CardContext db = new CardContext();
 
         public ActionResult Index()
         {
@@ -30,7 +30,7 @@ namespace Cards.UI.Web.Controllers
 
             List<Card> card = db.Set<Card>().ToList();
 
-            var result = card.Select(x => new CardTestas
+            var result = card.Select(x => new CardViewModel
             {
                 ID = x.ID,
                 number = x.number,
@@ -126,7 +126,6 @@ namespace Cards.UI.Web.Controllers
                 number = randomNumber,
                 state = State.Registered,
                 expirationDate = DateTime.Now.AddYears(10)
-
             };
 
             var cardHistoryModel = new CardHistory()
@@ -164,6 +163,7 @@ namespace Cards.UI.Web.Controllers
 
             return View(card);
         }
+
         // POST: Card/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -186,7 +186,7 @@ namespace Cards.UI.Web.Controllers
                 return RedirectToAction("Error");
             }
             
-            CardHistory cardHistories = db.CardHistories.Where(x => x.card.ID == id).FirstOrDefault();
+            //CardHistory cardHistories = db.CardHistories.Where(x => x.card.ID == id).FirstOrDefault();
             Card card = db.Cards.Where(x => x.ID == id).FirstOrDefault();
 
             if (card == null)
@@ -195,6 +195,7 @@ namespace Cards.UI.Web.Controllers
             }
             return View(card);
         }
+
         // POST: Card/History/5
         [HttpPost]
         [ValidateAntiForgeryToken]

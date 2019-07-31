@@ -18,7 +18,7 @@ namespace ActivationService
             int? state = null;
 
             SqlCommand cmdSELECT = new SqlCommand(commandSelect, con);
-            cmdSELECT.Parameters.Add("@number", uniqueNumber);
+            cmdSELECT.Parameters.AddWithValue("@number", uniqueNumber);
 
             con.Open();
 
@@ -43,11 +43,11 @@ namespace ActivationService
             if(state == 0)
             {
                 SqlCommand cmdPUT = new SqlCommand(commandUpdate, con);
-                cmdPUT.Parameters.Add("@number", uniqueNumber);
+                cmdPUT.Parameters.AddWithValue("@number", uniqueNumber);
                 cmdPUT.ExecuteNonQuery();
 
                 SqlCommand cmdINSERT = new SqlCommand(commandInsertHistory, con);
-                cmdINSERT.Parameters.Add("@ID", uniqueID);
+                cmdINSERT.Parameters.AddWithValue("@ID", uniqueID);
                 cmdINSERT.ExecuteNonQuery();
             }
 

@@ -26,7 +26,7 @@ namespace Cards.UI.Web.Models
         public virtual ICollection<CardHistory> CardHistories { get; set; }
     }
 
-    public class CardTestas
+    public class CardViewModel
     {
         public int ID { get; set; }
 
@@ -38,7 +38,7 @@ namespace Cards.UI.Web.Models
 
         public string niceDate { get { return this.expirationDate.ToString("yyyy-MM-dd"); } }
 
-        public CardTestas()
+        public CardViewModel()
         {
 
         }

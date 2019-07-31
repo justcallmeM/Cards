@@ -280,7 +280,6 @@
     <Content Include="Content\Kendo\Default\sprite_2x.png" />
     <Content Include="Content\Kendo\Default\sprite_kpi.png" />
     <Content Include="Content\Kendo\Default\sprite_kpi_2x.png" />
-    <Content Include="Content\edit.css" />
     <Content Include="Content\Kendo\fonts\DejaVu\LICENSE.txt" />
     <Content Include="Content\Kendo\fonts\glyphs\KendoUIGlyphs.svg" />
     <Content Include="Content\Kendo\fonts\glyphs\WebComponentsIcons.svg" />
@@ -327,6 +326,7 @@
     <Content Include="Content\Kendo\textures\stripe6.png" />
     <Content Include="Content\Kendo\textures\transparency.png" />
     <Content Include="Content\Kendo\textures\transtexture.png" />
+    <Content Include="Content\new.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

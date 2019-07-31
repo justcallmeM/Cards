@@ -1,4 +1,16 @@
-﻿.expirationDate {
+﻿.createButton a {
+    margin-left: 47.8%;
+}
+
+#cardGrid {
+    margin-left: 25%;
+}
+
+.k-header .k-link {
+    text-align: center;
+}
+
+.expirationDate {
     display: flex;
 }
 
@@ -10,30 +22,6 @@
     .expirationDate #date {
         margin-left: 10%;
     }
-
-.createButton {
-    margin-left: 47.8%;
-    margin-bottom: 1%;
-}
-
-
-#cardGrid {
-    margin-left: 25%;
-}
-
-.k-header .k-link {
-    text-align: center;
-}
-
-.k-icon {
-    display: none;
-}
-
-.k-link {
-    margin-left: 25px !important;
-    color: green !important;
-    font-weight: bold;
-}
 
 .control-label {
     margin-left: 18%;
